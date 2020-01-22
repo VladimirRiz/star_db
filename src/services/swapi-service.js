@@ -1,6 +1,6 @@
 export default class SwapiService{
 
-    _apiBase = `https://swapi.co/api`;
+    _apiBase = 'https://swapi.co/api';
 
     async getResource(url) {
         const res = await fetch(`${this._apiBase}${url}`);
@@ -39,8 +39,8 @@ export default class SwapiService{
 
 const swapi = new SwapiService();
 
-swapi.getStarShip(3).then((p) => {
-        console.log(p.name)
+swapi.getAllPlanets().then((p) => {
+        // console.log(p)
 
 })
 
