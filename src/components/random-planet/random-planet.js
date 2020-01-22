@@ -16,10 +16,10 @@ export default class RandomPlanet extends Component{
 
     constructor(){
         super();
-        this.getRundomPlanet()
+        this.getRandomPlanet()
     }
 
-    getRundomPlanet(){
+    getRandomPlanet(){
         const id = Math.floor(Math.random() * 21) + 1;
         this.swapiService.getPlanet(id)
         .then((p) =>{
