@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import SwapiService from '../../services/swapi-service'
 import Spinner from '../spinner'
+import ErrorIndicator from '../error-indicator'
 import './random-planet.css'
 
 export default class RandomPlanet extends Component{
@@ -12,35 +13,50 @@ export default class RandomPlanet extends Component{
         loading:true
     };
 
-    constructor(){
-        super();
-        this.getRandomPlanet()
+
+    componentDidMount(){
+        console.log("componentDidMount()")
+        this.getRandomPlanet();
+        this.interval = setInterval(this.getRandomPlanet, 5000)
     }
 
     onPlanetLoaded = (planet) => {
         this.setState({
             planet,
-            loading:false
+            loading:false,
+            error: false
         });
     }
 
-    getRandomPlanet(){
-        const id = Math.floor(Math.random() * 21) + 1;
-        console.log(id)
+    onError = (err) =>{
+        this.setState({
+            error:true,
+            loading:false
+        })
+    }
+
+    getRandomPlanet = () =>{
+        console.log('update')
+        const id = Math.floor(Math.random()*25) + 1;
+        // console.log(id)
         this.swapiService
             .getPlanet(id)
             .then(this.onPlanetLoaded)
+            .catch(this.onError)
     }
 
     render(){
+        console.log('render()')
+        const {planet,loading, error} = this.state;
 
-        const {planet,loading} = this.state;
-
-        const spinner = loading ? <Spinner/> : null,
-              content = !loading ? <PlanetView planet={planet}/> : null;
+        const hasData = !(loading || error),
+              spinner = loading ? <Spinner/> : null,
+              content = hasData ? <PlanetView planet={planet}/> : null,
+              errorMessage = error ? <ErrorIndicator/> : null;
         
         return(
             <div className='random-planet jumbotron rounded'>
+                {errorMessage}
                 {spinner}
                 {content}
             </div>
@@ -55,7 +71,7 @@ const PlanetView = ({planet}) => {
 
     return(
         <React.Fragment>
-            <img className='planet-image'
+            <img className='planet-image' alt={name}
                     src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
                 />
                 <div>
