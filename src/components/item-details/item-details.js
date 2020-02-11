@@ -1,55 +1,57 @@
 import React,{Component} from 'react'
 
-import './person-details.css'
+import './item-details.css'
 
 import SwapiService from '../../services/swapi-service'
 import Spinner from '../spinner'
 
-export default class PersonDetails extends Component {
+export default class ItemDetails extends Component {
 
     swapiService = new SwapiService();
 
     state = {
-        person : null,
+        item : null,
+        image: null,
         loading:true
     }
 
     componentDidMount(){
-        this.updatePerson()
+        this.updateItem()
     }
 
-    updatePerson(){
-        const {personId} = this.props;
+    updateItem(){
+        const {itemId, getData, getImgUrl} = this.props;
 
         this.setState({
             loading:true
         })
         
-        if(!personId){
+        if(!itemId){
             return;
         }
-        this.swapiService.getPerson(personId).then((person) =>{
+        getData(itemId).then((item) =>{
             this.setState({
-                person,
+                item,
+                image:getImgUrl(item),
                 loading:false
             })
         })
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.personId !== prevProps.personId){
-            this.updatePerson()
+        if(this.props.itemId !== prevProps.itemId){
+            this.updateItem()
         }
     }
 
     render(){
 
-        const {loading,person} = this.state,
+        const {loading,item, image} = this.state,
               hasData = !loading,
               spinner = loading ? <Spinner/> : null,
-              content = hasData ? <PersonView person={person}/> : null
+              content = hasData ? <PersonView item={item} image={image}/> : null
 
-        if(!this.state.person){
+        if(!this.state.item){
             return <span>Select a person from the list</span>
         }
 
@@ -64,12 +66,13 @@ export default class PersonDetails extends Component {
     } 
 }
 
-const PersonView = ({person}) =>{
-    const {id,name,gender,birthYear,eyeColor} = person
+const PersonView = ({item,image}) =>{
+
+    const  {id,name,gender,birthYear,eyeColor} = item
     return(
         <React.Fragment>
                 <img className='person-img' alt="name"
-                    src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
+                    src={image}
                 />
                 <div className='card-body'>
                     <h4>{name}</h4>
