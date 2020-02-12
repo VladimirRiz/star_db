@@ -37,7 +37,7 @@ export default class App extends Component{
         
         const   { showRandomPlanet : show} = this.state,
                 planet = show ? <RandomPlanet/> : null,
-                {getPerson,getStarShip,getStarShipImage,getPersonImage} = this.swapiService,
+                {getPerson,getStarShip,getStarShipImage,getPersonImage,getAllPeople} = this.swapiService,
                 people = <ItemDetails itemId={11}
                             getData = {getPerson}
                             getImgUrl={getPersonImage}
@@ -58,9 +58,12 @@ export default class App extends Component{
         return(
             <div className="m-5">
                 <Header/>
-                {/* {planet}
+                {planet}
                 <button className="btn btn-warning mb-4" onClick={this.toggleRandomPlanet}>Toggle Random Planet</button>
-                <PeoplePage/> */}
+                <ItemList getData={getAllPeople}
+                            onItemSelected={() => {}}>
+                                {({name}) => <span>{name}</span>}
+                </ItemList>
                 <Row
                     left={people}
                     right={starship}
