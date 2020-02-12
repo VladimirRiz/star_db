@@ -9,7 +9,7 @@ const Record = ({item,field,label}) => {
     return(
         <li className='list-group-item'>
             <span className='term'>{label}</span>
-            <span>{field}</span>
+            <span>{item[field]}</span>
         </li>
     );
 };
@@ -65,7 +65,7 @@ export default class ItemDetails extends Component {
               content = hasData ? <PersonView item={item} image={image} 
                                                 list={
                                                     React.Children.map(this.props.children, (child) => {
-                                                        return child;
+                                                        return React.cloneElement(child, {item});
                                                     })
                                                     }
 

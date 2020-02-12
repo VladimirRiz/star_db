@@ -49,7 +49,11 @@ export default class App extends Component{
                 starship = <ItemDetails itemId={5}
                             getData = {getStarShip}
                             getImgUrl={getStarShipImage}
-                />;
+                            >
+                            <Record field='model' label='Model'/>
+                            <Record field='length' label='Length'/>
+                            <Record field='crew' label='Crew'/>
+                </ItemDetails>;
 
         return(
             <div className="m-5">
