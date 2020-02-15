@@ -1,8 +1,6 @@
-import React,{Component} from 'react'
+import React from 'react'
 
 import './item-list.css';
-import Spinner from '../spinner'
-import SwapiService from '../../services/swapi-service';
 
  const ItemList = (props) =>{
 
@@ -22,43 +20,11 @@ import SwapiService from '../../services/swapi-service';
                 });
 
                 return(
-                        <ul className='item-list list-group'>
+                        <ul className='item-list list-group mb-3'>
                             {items}
                          </ul>
                 )
 }
 
-const withData = (View, getData) => {
-
-        return class extends Component{
-                state = {
-                        data:null
-                }
-        
-                componentDidMount(){
-        
-                        getData()
-                        .then((data) =>{
-                                this.setState({
-                                   data
-                                })
-                        })
-                }
-        
-                render(){
-
-                        const {data} = this.state;
-
-                        if(!data){
-                                return <Spinner/>
-                        }
-
-                        return <View {...this.props} data={data}/>
-                }
-        };
-};
-
-const {getAllPeople} = new SwapiService();
-
-export default withData(ItemList,getAllPeople)
+export default ItemList
 

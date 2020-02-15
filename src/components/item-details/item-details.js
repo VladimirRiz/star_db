@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 
 import './item-details.css'
 
-import SwapiService from '../../services/swapi-service'
 import Spinner from '../spinner'
 
 const Record = ({item,field,label}) => {
@@ -19,8 +18,6 @@ export {
 };
 
 export default class ItemDetails extends Component {
-
-    swapiService = new SwapiService();
 
     state = {
         item : null,
@@ -78,7 +75,7 @@ export default class ItemDetails extends Component {
         
 
         return(
-            <div className='person-details card'>
+            <div className='person-details card mb-3'>
             {spinner}
             {content}
             </div>
@@ -88,7 +85,7 @@ export default class ItemDetails extends Component {
 
 const PersonView = ({item,image,list}) =>{
 
-    const  {id,name,gender,birthYear,eyeColor} = item
+    const  {name} = item
     return(
         <React.Fragment>
                 <img className='person-img' alt="name"
